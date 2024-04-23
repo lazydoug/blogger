@@ -56,7 +56,7 @@ router.post(
     }),
 
   requestHandler.validate,
-  userController.register
+  userController.signup
 )
 
 //get user articles

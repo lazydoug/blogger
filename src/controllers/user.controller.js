@@ -16,6 +16,12 @@ const login = async (req, res) => {
 
     //check if user (with email) exists
     if (!user) {
+      //winston logger
+      logger.info({
+        trace: 'src > controllers > user.controller.js > login',
+        message: 'Email does not exist.',
+      })
+
       return res.status(401).send({
         message: 'An account with that email does not exist. Sign up instead.',
       })
@@ -31,19 +37,37 @@ const login = async (req, res) => {
     //on success, sign jwt
     const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' })
 
+    //winston logger
+    logger.info({
+      trace: 'src > controllers > user.controller.js > login',
+      success: 'Login successful. JWT signed.',
+    })
+
     res.status(200).send({ message: 'Logged in.', token: 'Bearer ' + token })
   } catch (error) {
+    //winston logger
+    logger.error({
+      trace: 'src > controllers > user.controller.js > login',
+      error: error,
+    })
+
     return res.status(500).send({ message: 'Something went wrong.', error })
   }
 }
 
-const register = async (req, res) => {
+const signup = async (req, res) => {
   const { firstName, lastName, email, password } = req.body
 
   //check if email already exists
   const user = await User.findOne({ email: req.body.email })
 
   if (user) {
+    //winston logger
+    logger.info({
+      trace: 'src > controllers > user.controller.js > signup',
+      message: 'Email already exists.',
+    })
+
     return res.status(401).send({
       message: 'An account with that email already exists. Login instead.',
     })
@@ -64,8 +88,20 @@ const register = async (req, res) => {
     //sign jwt
     const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' })
 
-    res.status(200).send({ message: 'Registered.', token: 'Bearer ', token })
+    //winston logger
+    logger.info({
+      trace: 'src > controllers > user.controller.js > signup',
+      success: 'Sign up successful. JWT signed.',
+    })
+
+    res.status(200).send({ message: 'Signed up.', token: 'Bearer ', token })
   } catch (error) {
+    //winston logger
+    logger.error({
+      trace: 'src > controllers > user.controller.js > signup',
+      error: error,
+    })
+
     return res.status(500).send({ message: 'Something went wrong.', error })
   }
 }
@@ -76,25 +112,43 @@ const getUserArticles = async (req, res) => {
     page = parseInt(req.query.page) - 1 || 0,
     limit = 20
 
-  if (mongoose.Types.ObjectId.isValid(id)) {
-    const query = { authorID: id }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    //winston logger
+    logger.info({
+      trace: 'src > controllers > user.controller.js > getUserArticles',
+      message: 'Invalid id for user',
+    })
 
-    if (state === 'draft' || state === 'published') {
-      query.state = state
-    }
-
-    try {
-      const articles = await Article.find(query)
-        .skip(page * limit)
-        .limit(limit)
-
-      res.status(200).send(articles)
-    } catch (error) {
-      return res.status(500).send({ message: 'Something went wrong.', error })
-    }
-  } else {
     return res.status(404).send({ message: 'Author does not exist.' })
+  }
+
+  const query = { authorID: id }
+
+  if (state === 'draft' || state === 'published') {
+    query.state = state
+  }
+
+  try {
+    const articles = await Article.find(query)
+      .skip(page * limit)
+      .limit(limit)
+
+       //winston logger
+    logger.info({
+      trace: 'src > controllers > user.controller.js > getUserArticles',
+      success: 'Get user articles successful.',
+    })
+
+    res.status(200).send(articles)
+  } catch (error) {
+    //winston logger
+    logger.error({
+      trace: 'src > controllers > user.controller.js > getUserArticles',
+      error: error,
+    })
+
+    return res.status(500).send({ message: 'Something went wrong.', error })
   }
 }
 
-export default { login, register, getUserArticles }
+export default { login, signup, getUserArticles }

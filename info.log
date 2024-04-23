@@ -1,0 +1,5 @@
+{"level":"info","message":{"success":"Article read count updated.","trace":"src > controllers > article.controller.js > getOneArticle"},"timestamp":"2024-04-23 01:24:11"}
+{"level":"error","message":{"error":"Invalid id for the article.","trace":"src > controllers > article.controller.js > getOneArticle"},"timestamp":"2024-04-23 01:24:17"}
+{"level":"info","message":{"error":{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"66262e055dce98bafd488d2\" (type string) at path \"_id\" for model \"Article\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"66262e055dce98bafd488d2\"","value":"66262e055dce98bafd488d2","valueType":"string"},"trace":"src > controllers > article.controller.js > getOneArticle"},"timestamp":"2024-04-23 01:24:29"}
+{"level":"error","message":{"error":"Invalid id for the article.","trace":"src > controllers > article.controller.js > getOneArticle"},"timestamp":"2024-04-23 01:24:33"}
+{"code":"ESERVFAIL","hostname":"_mongodb._tcp.clusterzero.2aoemm2.mongodb.net","level":"error","syscall":"querySrv","timestamp":"2024-04-23 02:02:55"}

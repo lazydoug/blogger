@@ -1,0 +1,3 @@
+{"level":"error","message":{"error":"Invalid id for the article.","trace":"src > controllers > article.controller.js > getOneArticle"},"timestamp":"2024-04-23 01:24:17"}
+{"level":"error","message":{"error":"Invalid id for the article.","trace":"src > controllers > article.controller.js > getOneArticle"},"timestamp":"2024-04-23 01:24:33"}
+{"code":"ESERVFAIL","hostname":"_mongodb._tcp.clusterzero.2aoemm2.mongodb.net","level":"error","syscall":"querySrv","timestamp":"2024-04-23 02:02:55"}

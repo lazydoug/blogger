@@ -5,6 +5,7 @@ import cors from 'cors'
 import passport from 'passport'
 
 import routes from './src/routes/index.js'
+import logger from './src/helpers/logger.helper.js'
 
 dotenv.config()
 
@@ -24,7 +25,15 @@ mongoose
   .connect(process.env.MONGODB_CONNECTION_STRING)
   .then(() =>
     app.listen(PORT, () => {
+      //winston logger
+      logger.info(`DB Connected. Server listening on ${PORT}`)
+
       console.log(`DB Connected. Server listening on ${PORT}`)
     })
   )
-  .catch(err => console.log(err))
+  .catch(err => {
+    //winston logger
+    logger.error(err)
+
+    console.log(err)
+  })
