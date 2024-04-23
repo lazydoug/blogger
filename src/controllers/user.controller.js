@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 
 import User from '../models/user.model.js'
 import Article from '../models/article.model.js'
+import logger from '../helpers/logger.helper.js'
 
 dotenv.config()
 const SECRET_KEY = process.env.SECRET_KEY
